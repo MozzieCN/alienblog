@@ -1,0 +1,9 @@
+依赖：
+Werkzeug  easy_install Werkzeug
+SQLAlchemy easy_install SQLAlchemy
+Jinja2  easy_install Jinja2
+运行:
+python deploy.py
+访问:
+localhost:8080
+
