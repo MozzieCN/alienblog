@@ -1,0 +1,49 @@
+{%-include 'header.html'-%}
+<div id="contents" class="clearfix">
+  <div id="left_col">
+    {%if archives:%}
+        {%for  archive in archives %}
+           {%if loop.index%2==0%}
+            <div class="post_even">
+           {%else%}
+            <div class="post_odd">
+           {% endif %}
+              <div class="post clearfix">
+                <div class="post_content_wrapper">
+                  <h2 class="post_title"><a href="{{archive.permalink()}}" rel="bookmark">{{archive.title()}}</a></h2>
+                  <div class="post_content">
+                    {{archive.content()}}
+                  </div>
+                </div>
+                <dl class="post_meta">
+                  <dt class="meta_date">
+                    {{archive.year()}}
+                  </dt>
+                  <dd class="post_date">
+                    {{archive.month()}}
+                    <span>/
+                    {{archive.day()}}
+                    </span></dd>
+                  <dt>CATEGORY</dt>
+                  <dd>{{archive.category_link()}}</dd>
+                  <dt>TAGS</dt>
+                  <dd>{{archive.tags_link(deli='<BR/>')}}</dd>
+                  <dt class="meta_comment"><a href="{{archive.permalink()}}#comments" title="Comment on {{archive.title()}}">{{archive.commentNums('Write comment','%d comments')}}</a></dt>
+                </dl>
+              </div>
+            </div>
+        {%endfor%}
+            <div class="content_noside">
+              <div class="page_navi clearfix">
+                    分页
+              </div>
+            </div>
+          </div>
+      
+    {%endif%}
+<!-- #left_col end -->
+{%-include 'sidebar.html'-%}
+</div>
+{%-include 'footer.html'-%}
+<!-- end #content-->
+ 

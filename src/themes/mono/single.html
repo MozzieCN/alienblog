@@ -1,0 +1,63 @@
+{%-include 'header.html'-%}
+<div id="contents" class="clearfix">
+  <div id="left_col">
+    <div id="header_meta">
+      <ul id="bread_crumb" class="clearfix">
+        <li id="bc_home"><a href="{{_option('siteUrl')}}">HOME</a></li>
+        <li id="bc_cat">
+           {{archive.category_link()}}
+        </li>
+        <li>
+          {% for  c in  archive.comments()%}
+          {% endfor %}
+          {{archive.title()}}
+        </li>
+      </ul>
+    </div>
+    <div class="post clearfix" id="single_post">
+      <div class="post_content_wrapper">
+        <h2 class="post_title"><span>
+          {{archive.title()}}
+          </span></h2>
+        <div class="post_content">
+            {{archive.content()}}
+        </div>
+      </div>
+      <dl class="post_meta">
+        <dt class="meta_date">
+          {{archive.year()}} 
+        </dt>
+        <dd class="post_date">
+          {{archive.month()}} 
+          <span>/
+          {{archive.day()}}
+          </span></dd>
+        <dt>CATEGORY</dt>
+        <dd>
+          {{archive.category_link()}}
+        </dd>
+        <dt>TAGS</dt>
+        <dd>
+          {{archive.tags_link(deli='<BR/>')}}
+        </dd>
+        <dt class="meta_comment"><a href="{{archive.permalink()}}#comments" title="Comment on {{archive.title()}}">
+          {{archive.commentNums('Write comment','%d comments')}}</a></dt>
+          </a></dt>
+      </dl>
+    </div>
+    <div id="comments_wrapper">
+     {%-include 'comments.html'-%}
+    </div>
+    <div id="previous_next_post" class="clearfix">
+      <p id="previous_post">
+      </p>
+      <p id="next_post">
+      </p>
+    </div>
+  </div>
+  <!-- #left_col end -->
+{%-include 'sidebar.html'-%}
+
+</div>
+<!-- end #content-->
+{%-include 'footer.html'-%}

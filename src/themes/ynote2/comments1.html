@@ -1,0 +1,54 @@
+
+<div id="comments">
+            {%-if  not comments and archive-%}
+                {%-set comments, page = archive.the_comments()-%}
+            {%-endif-%}
+            {%-if comments-%}
+			     <h4>{{archive.commentNums('当前无评论','仅有一条评论','已有 %d 条评论')}}</h4>
+			        {%-if page -%}
+			             {{page.paging()}}
+			        {%endif%}
+                    {{comments.list_items(
+                                          allow_replay_level=1,
+                                          replay_title='回复',
+                                          cancel_replay_title='取消回复'
+                                          )}}
+            {%-endif-%}
+            {%-if archive.allowComment()-%}
+            <ol class="comment-list2">
+            <li>
+                <div class="respond" id="{{comments.respond_id()}}">
+                <div class="cancel-comment-reply">
+                    {{comments.cancel_reply()}}
+                </a>            
+              </div>
+            
+            <div class="addcomment"></div>
+            <h4 id="response">添加新评论</h4>
+            <form id="comment_form" action="{{archive.the_comment_url()}}" method="post">
+                <div class="col2">
+                <p><textarea class="textarea" tabindex="1" name="text"></textarea></p>
+                </div>          
+                <div class="col1">
+                                <p>
+                    <label for="author">昵称</label>
+                    <input type="text" value="" class="text" id="author" name="author" tabindex="2">
+                </p>
+                <p>
+                    <label for="mail">邮箱</label>
+                    <input type="text" value="" class="text" id="mail" name="mail" tabindex="3">
+                </p>
+                <p>
+                    <label for="url">网站</label>
+                    <input type="text" value="" class="text" id="url" name="url" tabindex="4">
+                </p>
+                                <p><input type="submit" class="submit" value="提交评论" tabindex="5"></p>       
+                </div>
+                
+            </form>
+            </div>
+                        <div class="clear"></div>
+            </li>
+            </ol>
+            </div>
+            {%-endif-%}

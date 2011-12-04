@@ -1,0 +1,147 @@
+{%-macro render_comment(comment,before=None,after=None,class='comment-body comment-parent comment-odd',level=1)-%}
+       <li id="comment-{{comment.the_id()}}" class="{{class}}">
+        <div class="comment-author">
+                {{Widget('show.author',comment=comment).parse()}}
+                 <cite class="fn">
+                        {{comment.the_author()}}
+                 </cite>
+        </div>   
+        <div class="comment-meta">
+            <a href="#comment-{{comment.the_id()}}" rel="nofollow">{{comment.the_time()}}</a>
+        </div>
+        {{comment.the_content()}}
+        {%-if comment.have_children-%}
+        <div class="comment-children">
+                <ol class="comment-list">
+                    {%-for c in comment.childrens()-%}    
+                        {{render_comment(c,class='comment-body comment-child comment-level-odd comment-odd comment-by-author',level=2)}}
+                    {%-endfor-%}
+                </ol>
+        </div>
+        {%-endif-%}
+        {%-if level==1-%}
+        <div class="comment-reply">
+            <a  rel="nofollow" href="#" onclick="return CommentHelper.reply('comment-{{comment.the_id()}}', {{comment.the_id()}});">回复</a>
+        </div>
+        {%-endif-%}
+       </li>
+{%-endmacro-%}
+<div id="comments">
+            {%-if  not comments and archive-%}
+                {%-set comments, page = archive.the_comments()-%}
+            {%-endif-%}
+            {%-if comments-%}
+			     <h4>{{archive.commentNums('当前无评论','仅有一条评论','已有 %d 条评论')}}</h4>
+                    {{page.nav()}}
+                 <ol class="comment-list">
+                    {%-for comment in comments -%}
+                        {{render_comment(comment)}}
+                    {%-endfor-%}
+                  </ol>
+            {%-endif-%}
+            {%-if archive.allowComment()-%}
+            <ol class="comment-list2">
+            <li>
+                <div class="respond" id="respond-post-{{archive.the_id()}}">
+                <div class="cancel-comment-reply">
+            <a onclick="return CommentHelper.cancelReply();" style="display:none" rel="nofollow" href="#" id="cancel-comment-reply-link">取消回复</a>            </div>
+            
+            <div class="addcomment"></div>
+            <h4 id="response">添加新评论</h4>
+            <form id="comment_form" action="{{archive.the_comment_url()}}" method="post">
+                <div class="col2">
+                <p><textarea class="textarea" tabindex="1" name="text"></textarea></p>
+                </div>          
+                <div class="col1">
+                                <p>
+                    <label for="author">昵称</label>
+                    <input type="text" value="" class="text" id="author" name="author" tabindex="2">
+                </p>
+                <p>
+                    <label for="mail">邮箱</label>
+                    <input type="text" value="" class="text" id="mail" name="mail" tabindex="3">
+                </p>
+                <p>
+                    <label for="url">网站</label>
+                    <input type="text" value="" class="text" id="url" name="url" tabindex="4">
+                </p>
+                                <p><input type="submit" class="submit" value="提交评论" tabindex="5"></p>       
+                </div>
+                
+            </form>
+            </div>
+                        <div class="clear"></div>
+            </li>
+            </ol>
+            </div>
+            {%-endif-%}
+<script type="text/javascript">
+    var CommentHelper = {
+    dom : function (id) {
+        return document.getElementById(id);
+    },
+    
+    create : function (tag, attr) {
+        var el = document.createElement(tag);
+        
+        for (var key in attr) {
+            el.setAttribute(key, attr[key]);
+        }
+        
+        return el;
+    },
+
+    reply : function (cid, coid) {
+        var comment = this.dom(cid), parent = comment.parentNode,
+            response = this.dom('respond-post-{{archive.the_id()}}'), input = this.dom('comment-parent'),
+            form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+            textarea = response.getElementsByTagName('textarea')[0];
+
+        if (null == input) {
+            input = this.create('input', {
+                'type' : 'hidden',
+                'name' : 'parent',
+                'id'   : 'comment-parent'
+            });
+
+            form.appendChild(input);
+        }
+        
+        input.setAttribute('value', coid);
+
+        if (null == this.dom('comment-form-place-holder')) {
+            var holder = this.create('div', {
+                'id' : 'comment-form-place-holder'
+            });
+            
+            response.parentNode.insertBefore(holder, response);
+        }
+
+        comment.appendChild(response);
+        this.dom('cancel-comment-reply-link').style.display = '';
+        
+        if (null != textarea && 'text' == textarea.name) {
+            textarea.focus();
+        }
+        
+        return false;
+    },
+
+    cancelReply : function () {
+        var response = this.dom('respond-post-{{archive.the_id()}}'),
+        holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+        if (null != input) {
+            input.parentNode.removeChild(input);
+        }
+
+        if (null == holder) {
+            return true;
+        }
+
+        this.dom('cancel-comment-reply-link').style.display = 'none';
+        holder.parentNode.insertBefore(response, holder);
+        return false;
+    }
+}
+</script>

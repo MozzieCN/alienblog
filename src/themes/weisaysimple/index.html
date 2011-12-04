@@ -1,0 +1,53 @@
+{%-include 'header.html'-%}
+<div id="roll"><div title="回到顶部" id="roll_top"></div><div title="转到底部" id="fall"></div></div>
+<div id="content">
+<div class="main">
+{%-if archives-%}
+{%-for archive in archives-%}
+    <ul class="post" id="post-{{archive.the_id()}}">
+        <div class="post_date">
+            <span class="date_m">{{archive.the_time('%b')}}</span>
+            <span class="date_d">{{archive.the_day()}}</span>
+            <span class="date_y">{{archive.the_year()}}</span>
+        </div>
+        <div class="article">
+            <h2>
+                <a href="{{archive.the_permalink()}}" rel="bookmark" title="详细阅读 {{archive.the_title()}}">
+                    {{archive.the_title()}}</a>
+                    <span class="new">new 不new </span>
+            </h2>
+            <div class="entry_post">
+                {{archive.the_content()}}
+                <span class="more">
+                    <a href="{{archive.the_permalink()}}" title="详细阅读 {{archive.the_title()}}" rel="bookmark">阅读全文</a>
+                </span>
+             </div>
+             <div class="clear"></div>
+             <div class="info">
+                 作者：作者 | 分类：{{archive.category_popup_link()}} | 阅读：{{archive.the_click()}} 次 | 标签: {{archive.tags_popup_link(',','木有标签')}} 
+             </div>
+             <div class="comments_num">
+                 {{archive.comments_popup_link('抢沙发','1条评论','%s条评论')}}
+             </div>
+        </div>
+    </ul>
+    <div class="clear"></div>
+{%-endfor-%}
+{%-endif-%}
+
+<div class="navigation">
+<div class="pagination">
+{%-if  page-%}
+{% set tt=page.has_next %}
+    {%-if page.has_prev()-%}
+        {{page.prev_link('上一页',class='page_previous')}}
+    {%-endif-%}
+    {%-if page.has_next()-%}
+        {{page.next_link('下一页',class='page_next')}}
+    {%-endif-%}
+{%-endif-%}
+</div>
+</div>
+
+{%-include 'footer.html'-%}
+

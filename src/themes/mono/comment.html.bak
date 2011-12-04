@@ -1,0 +1,85 @@
+{%-macro render_comment(comment,before=None,after=None,class=None)-%}
+        <li id="comment-{{comment.id()}}" class="comments">
+            <div>
+                <div class="comment-meta">
+                    <div class="comment-meta-left">
+                        <img class="avatar" src="http://0.gravatar.com/avatar/?s=48&amp;r=G&amp;d=" alt="" width="48" height="48" />
+                        <ul class="comment-name-date">
+                            <li class="comment-name"><span id="commentauthor-361"></span>
+                            </li>
+                            <li class="comment-date">September 26th, 2011 at 16:30
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="comment-act">
+                        <li class="comment-reply">
+                            <a href="http://czbix.tk/support-chinese-in-english-windows.html/comment-page-1?replyTo=361#respond-post-97" rel="nofollow" onclick="return TypechoComment.reply('comment-361', 361);">REPLY</a></li>
+                    </ul>
+                </div>
+                <div class="comment-content">
+                    <p>博主 您的博主界面好漂亮啊 我很喜欢 谢谢！</p>
+                </div>
+            </div>
+            </li>
+    
+{%-endmacro-%}
+<div id="comments">
+  <div id="comment_header" class="clearfix">
+    <ul id="comment_header_left">
+      <li id="add_comment"><a href="#respond">Write comment</a></li>
+      <li id="comment_feed"><a href="-feedURL" title="Comments RSS">Comments RSS</a></li>
+    </ul>
+    <ul id="comment_header_right">
+      <li id="pingback_switch"><a href="javascript:void(0);">Pingback ( 0 )</a></li>
+      <li id="comment_switch" class="comment_switch_active"><a href="javascript:void(0);">
+           No Comments Yet
+        </a></li>
+    </ul>
+  </div>
+  <!-- comment_header END -->
+  <div id="comment_area"> 
+    <!-- start commnet -->
+    {% if archive.have_comments()%}}
+        <ul>
+        {%for  comment  in comments%}
+            <li id="comment-{{comment.id()}}" class="comments">
+            <div>
+                <div class="comment-meta">
+                    <div class="comment-meta-left">
+                        <img class="avatar" src="http://0.gravatar.com/avatar/?s=48&amp;r=G&amp;d=" alt="" width="48" height="48" />
+                        <ul class="comment-name-date">
+                            <li class="comment-name"><span id="commentauthor-361"></span>
+                            </li>
+                            <li class="comment-date">September 26th, 2011 at 16:30
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="comment-act">
+                        <li class="comment-reply">
+                            <a href="http://czbix.tk/support-chinese-in-english-windows.html/comment-page-1?replyTo=361#respond-post-97" rel="nofollow" onclick="return TypechoComment.reply('comment-361', 361);">REPLY</a></li>
+                    </ul>
+                </div>
+                <div class="comment-content">
+                    <p>博主 您的博主界面好漂亮啊 我很喜欢 谢谢！</p>
+                </div>
+            </div>
+            </li>
+        {%endfor%}
+        </ul>
+    {%endif%}
+    <?php endif; ?>
+    <!-- comments END --> 
+  </div>
+  <!-- #commentlist END -->
+  
+  <div id="pingback_area"> 
+    <!-- start pingback -->
+    <div id="pingback_url_wrapper">
+      <label for="pingback_url">Pingback URL</label>
+      <input type="text" name="pingback_url" id="pingback_url" size="60" value="xmlRPCURL()" readonly="readonly" onfocus="this.select()" />
+    </div>
+    <!-- pingback end --> 
+  </div>
+ 
+</div>
+<!-- #comment end -->

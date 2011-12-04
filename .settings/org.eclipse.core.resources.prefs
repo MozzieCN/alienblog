@@ -1,0 +1,23 @@
+#Thu Dec 01 14:22:55 CST 2011
+eclipse.preferences.version=1
+encoding//src/alien/app.py=utf-8
+encoding//src/alien/bottle.py=utf-8
+encoding//src/alien/demo.py=utf-8
+encoding//src/alien/flask_run.py=utf-8
+encoding//src/alien/framework.py=utf-8
+encoding//src/alien/globals.py=utf-8
+encoding//src/alien/htmlwappers.py=utf-8
+encoding//src/alien/router.py=utf-8
+encoding//src/contrlib/managers.py=utf-8
+encoding//src/contrlib/plugin.py=utf-8
+encoding//src/contrlib/utils.py=utf-8
+encoding//src/deploy.py=utf-8
+encoding//src/models.py=utf-8
+encoding//src/plugins/ArchiveExtension.py=utf-8
+encoding//src/plugins/CommentExtension.py=utf-8
+encoding//src/plugins/MetaExtension.py=utf-8
+encoding//src/plugins/widgets/author/AuthorWidget.py=utf-8
+encoding//src/schema.py=utf-8
+encoding//src/template.py=utf-8
+encoding//src/view_models.py=utf-8
+encoding//src/views.py=utf-8

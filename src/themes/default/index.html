@@ -1,0 +1,49 @@
+{%-include  'head.html'-%}
+<body>
+<div id="wrapper" class="container_12 clearfix">
+	<!-- Text Logo -->
+	<h1 id="logo" class="grid_4">Aurelius</h1>
+	<!-- Navigation Menu -->
+	<ul id="navigation" class="grid_8">
+		<li><a href="contact.html"><span class="meta">Get in touch</span><br />
+			Contact Us</a></li>
+		<li><a href="blog.html" class="current"><span class="meta">Latest news</span><br />
+			Blog</a></li>
+		<li><a href="index.html"><span class="meta">Homepage</span><br />
+			Home</a></li>
+	</ul>
+	<div class="hr grid_12 clearfix">&nbsp;</div>
+	<!-- Caption Line -->
+	<h2 class="grid_12 caption clearfix">Our <span>blog</span>, keeping you up-to-date on our latest news.</h2>
+	<div class="hr grid_12 clearfix">&nbsp;</div>
+	<!-- Column 1 /Content -->
+	<div class="grid_8">
+       {%if  archives%}
+            {%for  archive in  archives%}
+        
+		<!-- Blog Post -->
+		<div class="post">
+			<!-- Post Title -->
+			<h3 class="title"><a href="{{archive.permalink()}}">{{archive.title()}}</a></h3>
+			<!-- Post Data -->
+			<p class="sub"><a href="#">News</a>, <a href="#">Products</a> &bull; 31st Sep, 09 &bull; <a href="#">1 Comment</a></p>
+			<div class="hr dotted clearfix">&nbsp;</div>
+			<!-- Post Image -->
+			<!--img class="thumb" alt="" src="images/610x150.gif" /-->
+			<!-- Post Content -->
+			<!--p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <b>Mauris vel porta erat.</b> Quisque sit amet risus at odio pellentesque sollicitudin. Proin suscipit molestie facilisis. Aenean vel massa magna. Proin nec lacinia augue. Mauris venenatis libero nec odio viverra consequat. In hac habitasse platea dictumst.</p>
+			<p>Cras vestibulum lorem et dui mollis sed posuere leo semper. Integer ac ultrices neque. Cras lacinia orci a augue tempor egestas. Sed cursus, sem ut vehicula vehicula, ipsum est mattis justo, at volutpat nibh arcu sit amet risus. Vestibulum tincidunt, eros ut commodo laoreet, arcu eros ultrices nibh, ac auctor est dui vel nibh.</p-->
+            <p>{{archive.content()}}</p>
+			<!-- Read More Button -->
+			<p class="clearfix"><a href="single.html" class="button right"> Read More...</a></p>
+		</div>
+            {% endfor %}
+        {% endif %}
+		<div class="hr clearfix">&nbsp;</div>
+		<!-- Blog Navigation -->
+		<p class="clearfix"> <a href="#" class="button float">&lt;&lt; Previous Posts</a> <a href="#" class="button float right">Newer Posts >></a> </p>
+	</div>
+{%-include  'sidebar.html'-%}
+{%-include  'footer.html'-%}
+ 
+ 

@@ -1,0 +1,30 @@
+{%-include 'header.html'-%}
+<div id="roll"><div title="回到顶部" id="roll_top"></div><div title="转到底部" id="fall"></div></div>
+<div id="content">
+<div class="main">
+<div class="left">
+{%-if archives-%}
+{%-for archive in archives-%}
+        <div class="post_date">
+            <span class="date_m">{{archive.the_time('%b')}}</span>
+            <span class="date_d">{{archive.the_day()}}</span>
+            <span class="date_y">{{archive.the_year()}}</span>
+        </div>
+        <div class="article">
+            <h2>{{archive.the_title()}}</h2>
+            <div class="article_info">
+               作者：作者 &nbsp; 发布：{{archive.the_time('%Y-%m-%d %H:%M')}} &nbsp; 分类：{{archive.category_popup_link()}} &nbsp; 阅读：{{archive.the_click()}} &nbsp;{{archive.comments_popup_link('抢沙发','1条评论','%s条评论')}}
+            </div>
+            <dir class="clear"></dir>
+            <div class="context">
+                {{archive.the_content()}}
+                <p>本文固定链接: <a href="{{archive.the_permalink()}}" rel="bookmark" title="标题">{{archive.the_permalink()}} | 名字</a></p></div>
+             </div>
+             <div id="adsense2"></div>
+{%-endfor-%}
+{%-endif-%}
+</div>
+{%-include 'commetns.html'-%}
+</div>
+{%-include 'footer.html'-%}
+

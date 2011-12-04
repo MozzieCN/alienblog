@@ -1,0 +1,188 @@
+{%-macro render_comment(comment,before=None,after=None,class=None)-%}
+       <li id="comment-{{comment.id()}}" class="comments">
+           <div>
+            <div class="comment-meta">
+                <div class="comment-meta-left">
+                    <img class="avatar" src="http://1.gravatar.com/avatar/f699f4d7c922a35ed09914c3ce331bc0?s=48&amp;r=G&amp;d=" alt="视野瞳前" width="48" height="48" />
+                    <ul class="comment-name-date">
+                        <li class="comment-name">
+                            <span id="commentauthor-403">
+                                <a href="{{comment.url()}}" rel="external nofollow">视野瞳前</a>
+                            </span>
+                        </li>
+                        <li class="comment-date">
+                            {{comment.date()}}
+                        </li>
+                    </ul>
+            </div>
+            <ul class="comment-act">
+                <li class="comment-reply">
+                    <a href="#" rel="nofollow" onclick="return CommentHelper.reply('comment-{{comment.id()}}', {{comment.id()}});">REPLY</a>
+                </li>
+            </ul>
+          </div>
+          <div class="comment-content">
+                <p>{{comment.content()}}</p>
+          </div>
+         </div>
+        <ul class="children">
+            {%for  children in comment.childrens()%}
+                {{render_comment(children)}}
+            {%endfor%}
+        </ul>
+  </li>
+{%-endmacro-%}
+<div id="comments">
+  <div id="comment_header" class="clearfix">
+    <ul id="comment_header_left">
+            <li id="add_comment"><a href="#respond-post-{{archive.id()}}">Write comment</a></li>
+            <li id="comment_feed"><a href="http://czbix.tk/feed/find-mismatch-tags.html" title="Comments RSS">Comments RSS</a></li>
+    </ul>
+    <ul id="comment_header_right">
+      <!--li id="trackback_switch"><a href="javascript:void(0);">Trackback (0)</a></li-->
+      <li id="comment_switch" class="comment_switch_active"><a href="javascript:void(0);">
+         2 Comments        </a></li>
+    </ul>
+  </div>
+  <!-- comment_header END -->
+  <div id="comment_area"> 
+    <!-- start commnet -->
+    {%if archive.have_comments()%}
+        <ol class="comment-list">
+            <div class="page_navi clearfix">
+            </div>
+            {%for comment in archive.comments()%}
+                {{render_comment(comment)}}
+            {%endfor%}
+            <div class="page_navi clearfix">
+            </div>
+        </ol>
+    {%else%}
+         <ol class="comment-list">
+          <li class="comment even_comment">
+            <div class="comment-content">
+              <p>No comments yet.</p>
+            </div>
+          </li>
+        </ol>
+    {%endif%}
+    <!-- comments END --> 
+  </div>
+  <!-- #commentlist END -->
+  {%if archive.allowComment()%}
+     <div id="respond-post-{{archive.id()}}" class="respond">
+        <fieldset class="comment_form_wrapper">
+            <div id="cancel_comment_reply">
+        <a id="cancel-comment-reply-link" href="#" rel="nofollow" style="display:none" onclick="return CommentHelper.cancelReply();">Click here to cancel reply.</a>
+                    </div>
+      <form action="comment-url" method="post" id="commentform">
+        <div id="guest_info">
+          <div id="guest_name">
+            <label for="author"><span>NAME</span>( required )</label>
+            <input type="text" name="author" id="author" value="" size="22" tabindex="1" />
+          </div>
+          <div id="guest_email">
+            <label for="email"><span>E-MAIL</span>
+              ( required ) - will not be published -
+            </label>
+            <input type="text" name="mail" id="email" value="" size="22" tabindex="2" />
+          </div>
+          <div id="guest_url">
+            <label for="url"><span>URL</span>
+              ( required )
+            </label>
+            <input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+          </div>
+        </div>
+        <div class="allowed_tag">
+          <pre style="white-space:nowrap; margin-top:12px;">You can use the following tags in the comments:<br /><br />
+                
+         </pre>
+        </div>
+        <div id="comment_textarea">
+          <textarea name="text" id="comment" cols="50" rows="10" tabindex="4"></textarea>
+        </div>
+        <div id="submit_comment_wrapper">
+          <input name="submit" type="submit" id="submit_comment" tabindex="5" value="Submit Comment (Ctrl+Enter)" title="Submit Comment" alt="Submit Comment" />
+        </div>
+      </form>
+    </fieldset>
+    </div>
+  {%endif%}
+ 
+  <!-- #trackbacklist END -->
+  
+  <!-- #comment-form-area END -->
+  </div>
+<!-- #comment end -->
+
+<script type="text/javascript">
+    var CommentHelper = {
+    dom : function (id) {
+        return document.getElementById(id);
+    },
+    
+    create : function (tag, attr) {
+        var el = document.createElement(tag);
+        
+        for (var key in attr) {
+            el.setAttribute(key, attr[key]);
+        }
+        
+        return el;
+    },
+
+    reply : function (cid, coid) {
+        var comment = this.dom(cid), parent = comment.parentNode,
+            response = this.dom('respond-post-{{archive.the_id()}}'), input = this.dom('comment-parent'),
+            form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+            textarea = response.getElementsByTagName('textarea')[0];
+
+        if (null == input) {
+            input = this.create('input', {
+                'type' : 'hidden',
+                'name' : 'parent',
+                'id'   : 'comment-parent'
+            });
+
+            form.appendChild(input);
+        }
+        
+        input.setAttribute('value', coid);
+
+        if (null == this.dom('comment-form-place-holder')) {
+            var holder = this.create('div', {
+                'id' : 'comment-form-place-holder'
+            });
+            
+            response.parentNode.insertBefore(holder, response);
+        }
+
+        comment.appendChild(response);
+        this.dom('cancel-comment-reply-link').style.display = '';
+        
+        if (null != textarea && 'text' == textarea.name) {
+            textarea.focus();
+        }
+        
+        return false;
+    },
+
+    cancelReply : function () {
+        var response = this.dom('respond-post-{{archive.the_id()}}'),
+        holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+        if (null != input) {
+            input.parentNode.removeChild(input);
+        }
+
+        if (null == holder) {
+            return true;
+        }
+
+        this.dom('cancel-comment-reply-link').style.display = 'none';
+        holder.parentNode.insertBefore(response, holder);
+        return false;
+    }
+}
+</script>

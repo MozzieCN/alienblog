@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="{{_option('theme_url')}}/style.css" />
+<link rel="shortcut icon" href="{{_option('theme_url')}}/images/favicon.ico" type="image/x-icon" />
+<script type="text/javascript" src="{{_option('theme_url')}}/js/jquery.min.js"></script>
+<script type="text/javascript" src="{{_option('theme_url')}}/comments-ajax.js"></script>
+<script type="text/javascript" src="{{_option('theme_url')}}/js/hoveraccordion.js"></script>
+<script type="text/javascript" src="{{_option('theme_url')}}/js/weisay.js"></script>
+<script type="text/javascript">
+    
+jQuery(document).ready(function($){
+$('.article h2 a').click(function(){
+    $(this).text('页面载入中……');
+    window.location = $(this).attr('href');
+    });
+});
+</script>
+<script type="text/javascript" src="{{_option('theme_url')}}/js/lazyload.js"></script>
+<script type="text/javascript">
+	$(function() {          
+    	$(".article img, .articles img").not("#respond_box img").lazyload({
+        	placeholder:"{{_option('theme_url')}}/images/image-pending.gif",
+            effect:"fadeIn"
+          });
+    	});
+</script>
+<body>
+<div id="page">
+<div id="header">
+<div id="top">
+		<div class="search">		
+			<form id="searchform" method="get" action="/home">
+				<input type="text" value="search topic" name="s" id="s" size="30" />
+				<button type="submit">Search</button>
+			</form>
+        </div>
+        <div id="blogname"><a href="http://www.weisay.com/blog">威言威语</a>
+        <div id="blogtitle">我愿像茶一样，把苦涩留在心里，敬发出来的都是清香！</div></div>
+<div class="clear"></div>
+<div class="topnav">
+    <ul>
+     <li class="cat-item"> <a href="{{_option('siteUrl')}}" title="HOME">
+            Home
+      </a></li>
+    {%for category in Widget('system.category.widget').get()%}
+        <li class="cat-item"> <a href="#" title="未分类">
+            {{category.displayName}}
+          </a></li>
+    {%endfor%}
+    </ul>
+</div>
+<div id="rss"><ul>
+<li class="rssfeed"><a href="rss2_rul ?>" target="_blank" class="icon1" title="欢迎订阅blogname"></a></li>
+<li class="tqq"><a href="qqurl" target="_blank" class="icon2" title="我的腾讯微博"></a></li>
+<li class="tsina"><a href="sianual" target="_blank" class="icon3" title="我的新浪微博"></a></li>
+<li class="rssmail"><a href="http://mail.qq.com/cgi-bin/feed?u=rssmail" target="_blank" class="icon4" title="用QQ邮箱阅读空间订阅我的博客"></a></li>
+</ul></div>
+<div class="clear"></div>
+</div>
+</div>
+
