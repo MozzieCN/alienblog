@@ -176,7 +176,7 @@ public class RedisProtocol extends AbstractProtocol {
 							value.writeObject(invocation.getArguments()[1]);
 							resource.set(realKey.getBytes(),
 									output.toByteArray());
-							if (expiry > 1000) {
+							if (expiryTime > 1000) {
 								resource.expire(realKey.getBytes(),
 										expiryTime / 1000);
 							}
@@ -191,8 +191,7 @@ public class RedisProtocol extends AbstractProtocol {
 												+ invocation.getMethodName()
 												+ ", url: " + url);
 							}
-							resource.del(String.valueOf(
-									invocation.getArguments()[0]).getBytes());
+							resource.del(realKey.getBytes());
 							return new RpcResult();
 						} else {
 							throw new UnsupportedOperationException(

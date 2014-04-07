@@ -66,26 +66,45 @@ public class MemcachedProtocol extends AbstractProtocol {
             final int expiry = url.getParameter("expiry", 0);
             final String get = url.getParameter("get", "get");
             final String set = url.getParameter("set", Map.class.equals(type) ? "put" : "set");
+            final String setex = url.getParameter("setex","setex");
             final String delete = url.getParameter("delete", Map.class.equals(type) ? "remove" : "delete");
             return new AbstractInvoker<T>(type, url) {
                 protected Result doInvoke(Invocation invocation) throws Throwable {
+                	String prefix = url.getParameter(Constants.APPLICATION_KEY)
+							+ ":";
+
+					Object key = invocation.getArguments()[0];
+					String realKey = prefix + String.valueOf(key);
                     try {
                         if (get.equals(invocation.getMethodName())) {
                             if (invocation.getArguments().length != 1) {
                                 throw new IllegalArgumentException("The memcached get method arguments mismatch, must only one arguments. interface: " + type.getName() + ", method: " + invocation.getMethodName() + ", url: " + url);
                             }
-                            return new RpcResult(memcachedClient.get(String.valueOf(invocation.getArguments()[0])));
+                            return new RpcResult(memcachedClient.get(realKey));
                         } else if (set.equals(invocation.getMethodName())) {
                             if (invocation.getArguments().length != 2) {
                                 throw new IllegalArgumentException("The memcached set method arguments mismatch, must be two arguments. interface: " + type.getName() + ", method: " + invocation.getMethodName() + ", url: " + url);
                             }
-                            memcachedClient.set(String.valueOf(invocation.getArguments()[0]), expiry, invocation.getArguments()[1]);
+                            memcachedClient.set(realKey, expiry, invocation.getArguments()[1]);
                             return new RpcResult();
+                        }else if(setex.equals(invocation.getMethodName())){
+                        	if (!(invocation.getArguments()[2] instanceof Long)) {
+								throw new IllegalArgumentException(
+										"The redis setex method arguments three must Long. interface: "
+												+ type.getName() + ", method: "
+												+ invocation.getMethodName()
+												+ ", url: " + url);
+
+							}
+                        	int expireTime  = ((Long)invocation.getArguments()[2]).intValue();
+                        	memcachedClient.set(realKey, expireTime, invocation.getArguments()[1]);
+                        	return new RpcResult();
+                        	
                         } else if (delete.equals(invocation.getMethodName())) {
                             if (invocation.getArguments().length != 1) {
                                 throw new IllegalArgumentException("The memcached delete method arguments mismatch, must only one arguments. interface: " + type.getName() + ", method: " + invocation.getMethodName() + ", url: " + url);
                             }
-                            memcachedClient.delete(String.valueOf(invocation.getArguments()[0]));
+                            memcachedClient.delete(realKey);
                             return new RpcResult();
                         } else {
                             throw new UnsupportedOperationException("Unsupported method " + invocation.getMethodName() + " in memcached service.");
